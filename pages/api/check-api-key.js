@@ -1,5 +1,8 @@
 export default async function handler(req, res) {
-    const { apiKey } = req.body;
+    const requestBody = await req.text();
+    const body = JSON.parse(requestBody);
+
+    const { apiKey } = body;
 
     // Check if the API key is valid by making a request to the OpenAI API
     const response = await fetch('https://api.openai.com/v1/engines', {
@@ -10,9 +13,17 @@ export default async function handler(req, res) {
 
     if (response.ok) {
         // API key is valid, return success response
-        res.status(200).json({ success: true });
+        const successResponse = new Response(JSON.stringify({ success: true }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return successResponse;
     } else {
         // API key is invalid, return error response
-        res.status(400).json({ success: false });
+        const errorResponse = new Response(JSON.stringify({ success: false }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return errorResponse;
     }
 }

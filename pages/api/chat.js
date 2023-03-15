@@ -1,14 +1,28 @@
-import createChatResponse  from '../../utils/createChatResponse';
+import createChatResponse from '../../utils/createChatResponse';
 import { createApiRequest } from '../../utils/createApiRequest';
 
 export default async function handler(req, res) {
 
-    const { message, apiKey } = req.body;
+    const requestBody = await req.text();
+    const body = JSON.parse(requestBody);
+
+    const { message, apiKey } = body;
+
+    console.log('Text create 1:', message);
+    console.log('API Key 1:', apiKey);
 
     try {
         const response = await createApiRequest(message, apiKey);
-        res.status(200).json(createChatResponse(response));
+        const successResponse = new Response(JSON.stringify(createChatResponse(response)), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return successResponse;
     } catch (error) {
-        res.status(500).json(createChatResponse('Something went wrong!'));
+        const errorResponse = new Response(JSON.stringify(createChatResponse('Something went wrong!')), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return errorResponse;
     }
 }

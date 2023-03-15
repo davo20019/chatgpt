@@ -58,7 +58,6 @@ const ChatGpt = () => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({ message: chatInput, apiKey: apiKey }),
         });

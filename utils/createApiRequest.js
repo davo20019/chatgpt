@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 const createApiRequest = (text, apiKey) => {
     console.log('Text create:', text);
     console.log('API Key:', apiKey);
@@ -7,23 +5,29 @@ const createApiRequest = (text, apiKey) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
+            'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            inputs: {
-                text,
-            },
-            context: {
-                metadata: {
-                    language: 'en',
-                    timezone: 'America/Los_Angeles',
+            messages: [
+                {
+                    role: 'user',
+                    content: text,
                 },
-            },
-        }),
+            ],
+            temperature: 0.5,
+            max_tokens: 100,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            stop: ["\n"],
+            model: "gpt-3.5-turbo",
+            user: "user123456",
+        })
     };
 
+
     return fetch(
-        'https://api.openai.com/v1/engines/davinci-codex/completions',
+        'https://api.openai.com/v1/chat/completions',
         requestOptions
     )
         .then((response) => response.json())
