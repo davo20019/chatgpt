@@ -1,43 +1,101 @@
-.apiKeyContainer {
+/* ChatGpt.module.css */
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
-.chatContainer {
+.chat {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-}
-
-.chatHistory {
-    flex: 1;
-    overflow-y: scroll;
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
     padding: 1rem;
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background-color: #f5f5f5;
 }
 
-.inputContainer {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    background-color: #f4f4f4;
+.user,
+.bot {
+    display: inline-block;
+    max-width: 70%;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 20px;
+    word-wrap: break-word;
 }
 
-.message {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    max-width: 80%;
-}
-
-.userMessage {
-    background-color: #b3e5fc;
+.user {
     align-self: flex-end;
+    background-color: #0084ff;
+    color: white;
 }
 
-.botMessage {
-    background-color: #e0e0e0;
+.bot {
     align-self: flex-start;
+    background-color: white;
+    color: #222;
+    border: 1px solid #ccc;
+}
+
+.form,
+.apiKeyForm {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form {
+    margin-bottom: 2rem;
+}
+
+.input,
+.apiKeyInput {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.apiKeyInput {
+    margin-right: 0.5rem;
+}
+
+.input {
+    margin-right: 0.5rem;
+}
+
+.button,
+.apiKeyButton {
+    padding: 0.5rem 1rem;
+    background-color: #0084ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.button:hover,
+.apiKeyButton:hover {
+    background-color: #006fce;
+}
+
+.error {
+    color: red;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
 }
