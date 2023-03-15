@@ -1,4 +1,4 @@
-const createApiRequest = (text, apiKey) => {
+const createApiRequest = async (text, apiKey) => {
     console.log('Text create:', text);
     console.log('API Key:', apiKey);
     const requestOptions = {
@@ -22,22 +22,17 @@ const createApiRequest = (text, apiKey) => {
             stop: ["\n"],
             model: "gpt-3.5-turbo",
             user: "user123456",
-        })
+        }),
     };
 
-
-    return fetch(
-        'https://api.openai.com/v1/chat/completions',
-        requestOptions
-    )
-        .then((response) => response.json())
-        .then((result) => {
-            console.log('Result:', result);
-            return result.choices[0].text;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
+        const result = await response.json();
+        console.log('Result:', result);
+        return result.choices[0].text;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 };
 
 export { createApiRequest };
