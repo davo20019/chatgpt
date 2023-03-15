@@ -60,7 +60,7 @@ const ChatGpt = () => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${apiKey}`,
             },
-            body: JSON.stringify({ prompt: chatInput }),
+            body: JSON.stringify({ message: chatInput, apiKey: apiKey }),
         });
 
         if (!response.ok) {
@@ -71,10 +71,10 @@ const ChatGpt = () => {
 
         const data = await response.json();
 
-        if (data.choices && data.choices.length > 0) {
+        if (data.messages && data.messages.length > 0) {
             setChatLog((prevChatLog) => [
                 ...prevChatLog,
-                { user: chatInput, bot: data.choices[0].text },
+                { user: chatInput, bot: data.messages[0].text },
             ]);
         }
 

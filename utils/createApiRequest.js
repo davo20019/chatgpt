@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 
 const createApiRequest = (text, apiKey) => {
+    console.log('Text create:', text);
+    console.log('API Key:', apiKey);
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -26,6 +28,7 @@ const createApiRequest = (text, apiKey) => {
     )
         .then((response) => response.json())
         .then((result) => {
+            console.log('Result:', result);
             return result.choices[0].text;
         })
         .catch((error) => {
