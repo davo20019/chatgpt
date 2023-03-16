@@ -8,22 +8,6 @@ const ChatGpt = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [apiKeyValidated, setApiKeyValidated] = useState(false);
-    const [visitorCount, setVisitorCount] = useState(0);
-
-    /*useEffect(() => {
-        const fetchVisitorCount = async () => {
-            const response = await fetch('/api/visitorCounter');
-            const data = await response.json();
-            setVisitorCount(data.count);
-        };
-
-        const incrementVisitorCount = async () => {
-            await fetch('/api/visitorCounter', { method: 'POST' });
-        };
-
-        fetchVisitorCount();
-        incrementVisitorCount();
-    }, []);*/
 
     const handleApiKeySubmit = async (e) => {
         e.preventDefault();
@@ -170,7 +154,6 @@ const ChatGpt = () => {
                 </form>
             )}
             {apiKeyValidated && <div className={styles.success}>API key validated and in use.</div>}
-            <div className={styles.visitorCount}>Visitor count: 0</div>
         </div>
     );
 };
