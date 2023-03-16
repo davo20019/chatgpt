@@ -7,6 +7,7 @@ const ChatGpt = () => {
     const [chatLog, setChatLog] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [apiKeyValidated, setApiKeyValidated] = useState(false);
 
     const handleApiKeySubmit = async (e) => {
         e.preventDefault();
@@ -29,7 +30,7 @@ const ChatGpt = () => {
         });
 
         if (response.ok) {
-            setApiKey(apiKey);
+            setApiKeyValidated(true);
         } else {
             const errorText = await response.text();
             setError(errorText);
@@ -84,9 +85,14 @@ const ChatGpt = () => {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>
-                ChatGPT created by{' '}
-                <a href="https://davidloor.com/" target="_blank" rel="noopener noreferrer" className={styles.author}>
-                    David Loor M.
+                ChatGPT{' '}
+                <a
+                    href="https://davidloor.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                >
+                    created by David Loor M.
                 </a>
             </h1>
             <div className={styles.chat}>
@@ -103,35 +109,38 @@ const ChatGpt = () => {
                     placeholder="Type your message here..."
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
-                    disabled={!apiKey || loading}
+                    disabled={!apiKeyValidated || loading}
                     className={styles.input}
                 />
                 <button
                     type="submit"
-                    disabled={!apiKey || loading}
+                    disabled={!apiKeyValidated || loading}
                     className={styles.button}
                 >
                     {loading ? 'Loading...' : 'Send'}
                 </button>
             </form>
-            <form onSubmit={handleApiKeySubmit} className={styles.apiKeyForm}>
-                <input
-                    type="password"
-                    placeholder="Enter your OpenAI API key here..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    disabled={loading}
-                    className={styles.apiKeyInput}
-                />
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className={styles.apiKeyButton}
-                >
-                    {loading ? 'Loading...' : 'Submit'}
-                </button>
-                {error && <div className={styles.error}>{error}</div>}
-            </form>
+            {!apiKeyValidated && (
+                <form onSubmit={handleApiKeySubmit} className={styles.apiKeyForm}>
+                    <input
+                        type="password"
+                        placeholder="Enter your OpenAI API key here..."
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        disabled={loading}
+                        className={styles.apiKeyInput}
+                    />
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className={styles.apiKeyButton}
+                    >
+                        {loading ? 'Loading...' : 'Submit'}
+                    </button>
+                    {error && <div className={styles.error}>{error}</div>}
+                </form>
+            )}
+            {apiKeyValidated && <div className={styles.success}>API key validated and in use.</div>}
         </div>
     );
 };
