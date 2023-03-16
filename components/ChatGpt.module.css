@@ -93,13 +93,11 @@
 .apiKeyButton:hover {
     background-color: #006fce;
 }
-
 .error {
     color: red;
     margin-top: 0.5rem;
     font-size: 0.9rem;
 }
-
 .title {
     text-align: center;
     font-size: 2rem;
@@ -107,13 +105,17 @@
     color: #222;
     margin-bottom: 1rem;
 }
-
 .author {
     color: #0084ff;
     text-decoration: none;
     transition: color 0.3s;
 }
-
 .author:hover {
     color: #006fce;
+}
+.success {
+    color: #4caf50;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-align: center;
 }
