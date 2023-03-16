@@ -32,7 +32,6 @@ const createApiRequest = async (text, apiKey) => {
         }
 
         const result = await response.json();
-        console.log('Message: ', result.choices[0].message.content);
         return result.choices[0].message.content;
     } catch (error) {
         throw error;

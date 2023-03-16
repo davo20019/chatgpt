@@ -113,6 +113,7 @@ const ChatGpt = () => {
                     <div key={index}>
                         <div className={styles.user}>{chat.user}</div>
                         <div className={styles.bot}>{chat.bot}</div>
+                        <hr />
                     </div>
                 ))}
             </div>
