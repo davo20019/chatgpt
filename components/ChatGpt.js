@@ -22,7 +22,6 @@ const ChatGpt = () => {
         }
 
         try {
-            console.log('API Key:', apiKey);
             const response = await fetch('/api/check-api-key', {
                 method: 'POST',
                 headers: {
@@ -30,9 +29,6 @@ const ChatGpt = () => {
                 },
                 body: JSON.stringify({ apiKey }),
             });
-
-            console.log('Response:', response);
-            console.log('Response OK:', response.ok);
 
             if (response.ok) {
                 setApiKeyValidated(true);
@@ -42,7 +38,6 @@ const ChatGpt = () => {
                 setApiKey('');
             }
         } catch (error) {
-            console.error('Error:', error);
             setError('An error occurred while validating the API key.');
         } finally {
             setLoading(false);
