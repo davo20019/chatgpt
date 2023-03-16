@@ -21,23 +21,32 @@ const ChatGpt = () => {
             return;
         }
 
-        const response = await fetch('/api/check-api-key', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ apiKey }),
-        });
+        try {
+            console.log('API Key:', apiKey);
+            const response = await fetch('/api/check-api-key', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ apiKey }),
+            });
 
-        if (response.ok) {
-            setApiKeyValidated(true);
-        } else {
-            const errorText = await response.text();
-            setError(errorText);
-            setApiKey('');
+            console.log('Response:', response);
+            console.log('Response OK:', response.ok);
+
+            if (response.ok) {
+                setApiKeyValidated(true);
+            } else {
+                const errorText = await response.text();
+                setError(errorText);
+                setApiKey('');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('An error occurred while validating the API key.');
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     const handleChatSubmit = async (e) => {
