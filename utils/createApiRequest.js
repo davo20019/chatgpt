@@ -10,24 +10,19 @@ const createApiRequest = async (text, apiKey) => {
             'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            messages: [
-                {
-                    role: 'user',
-                    content: text,
-                },
-            ],
+            prompt: text,
             temperature: 0.5,
             max_tokens: 100,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
             stop: ["\n"],
-            model: "gpt-3.5-turbo",
+            model: "text-davinci-003",
         }),
     };
 
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
+        const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
 
         if (!response.ok) {
             const error = await response.json();
