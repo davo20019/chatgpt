@@ -90,11 +90,11 @@ const ChatGpt = () => {
         }
 
         const data = await response.json();
-
+        console.log('Data:', data);
         if (data.messages && data.messages.length > 0) {
             setChatLog((prevChatLog) => [
                 ...prevChatLog,
-                { user: chatInput, bot: data.messages[0].text },
+                { user: chatInput, bot: data.messages[0].content },
             ]);
         }
 

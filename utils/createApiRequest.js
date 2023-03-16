@@ -1,7 +1,5 @@
 // utils/createApiRequest.js
 const createApiRequest = async (text, apiKey) => {
-    console.log('Prompt:', text);
-    console.log('API Key:', apiKey);
 
     const requestOptions = {
         method: 'POST',
@@ -10,31 +8,33 @@ const createApiRequest = async (text, apiKey) => {
             'Authorization': `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-            prompt: text,
+            messages: [
+                {
+                    role: 'user',
+                    content: text,
+                },
+            ],
             temperature: 0.5,
             max_tokens: 100,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
-            stop: ["\n"],
-            model: "text-davinci-003",
+            model: "gpt-3.5-turbo",
         }),
     };
 
     try {
-        const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
+        const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
 
         if (!response.ok) {
             const error = await response.json();
-            console.error('Error:', error);
             throw new Error(`API request failed with status ${response.status}`);
         }
 
         const result = await response.json();
-        console.log('Result:', result);
-        return result.choices[0].text;
+        console.log('Message: ', result.choices[0].message.content);
+        return result.choices[0].message.content;
     } catch (error) {
-        console.error('Error:', error);
         throw error;
     }
 };
