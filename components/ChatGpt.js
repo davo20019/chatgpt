@@ -106,7 +106,7 @@ const ChatGpt = () => {
             </h1>
             {!apiKey && (
                 <p className={styles.helpText}>
-                    To use this chat, you'll need an OpenAI API key. You can get one by signing up for an account at{' '}
+                    To use this chat, you&apos;ll need an OpenAI API key. You can get one by signing up for an account at{' '}
                     <a href="https://beta.openai.com/signup/" target="_blank" rel="noopener noreferrer">
                         OpenAI
                     </a>
