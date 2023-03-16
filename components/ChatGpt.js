@@ -95,6 +95,15 @@ const ChatGpt = () => {
                     created by David Loor M.
                 </a>
             </h1>
+            {!apiKey && (
+                <p className={styles.helpText}>
+                    To use this chat, you'll need an OpenAI API key. You can get one by signing up for an account at{' '}
+                    <a href="https://beta.openai.com/signup/" target="_blank" rel="noopener noreferrer">
+                        OpenAI
+                    </a>
+                    . Once you have your API key, enter it in the provided input field.
+                </p>
+            )}
             <div className={styles.chat}>
                 {chatLog.map((chat, index) => (
                     <div key={index}>
