@@ -83,6 +83,12 @@ const ChatGpt = () => {
 
     return (
         <div className={styles.container}>
+            <h1 className={styles.title}>
+                ChatGPT created by{' '}
+                <a href="https://davidloor.com/" target="_blank" rel="noopener noreferrer" className={styles.author}>
+                    David Loor M.
+                </a>
+            </h1>
             <div className={styles.chat}>
                 {chatLog.map((chat, index) => (
                     <div key={index}>
