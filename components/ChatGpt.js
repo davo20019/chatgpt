@@ -84,7 +84,14 @@ const ChatGpt = () => {
             if (isImageRequest) {
                 setChatLog((prevChatLog) => [
                     ...prevChatLog,
-                    { user: chatInput, bot: <Image src={data.messages[0].content} alt="Generated Image" width={670} height={670} /> },
+                    {
+                        user: chatInput,
+                        bot: (
+                            <a href={data.messages[0].content} target="_blank" rel="noopener noreferrer">
+                                <Image src={data.messages[0].content} alt="Generated Image" width={670} height={670} />
+                            </a>
+                        ),
+                    },
                 ]);
             } else {
                 const messages = data.messages.map((msg, index) => (
