@@ -8,6 +8,7 @@ const ChatGpt = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [apiKeyValidated, setApiKeyValidated] = useState(false);
+    const [messageType, setMessageType] = useState('text');
 
     const handleApiKeySubmit = async (e) => {
         e.preventDefault();
@@ -59,32 +60,40 @@ const ChatGpt = () => {
 
         setLoading(true);
 
-        const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: chatInput, apiKey: apiKey }),
-        });
+        const isImageRequest = messageType === 'image';
+        //const isImageRequest = chatInput.toLowerCase().startsWith('/generate-image');
+        const text = isImageRequest ? chatInput.slice('/generate-image'.length).trim() : chatInput;
 
-        if (!response.ok) {
-            setError(await response.text());
-            setLoading(false);
-            return;
-        }
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: text, apiKey: apiKey, isImageRequest: isImageRequest }),
+            });
 
-        const data = await response.json();
-        console.log('Data:', data);
-        if (data.messages && data.messages.length > 0) {
-            setChatLog((prevChatLog) => [
-                ...prevChatLog,
-                { user: chatInput, bot: data.messages[0].content },
-            ]);
+            if (!response.ok) {
+                throw new Error('An error occurred while processing your request.');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            if (isImageRequest) {
+                setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: <img src={data.messages[0].content} alt="Generated Image" /> }]);
+            } else {
+                const messages = data.messages.map(msg => <div className={styles.bot}>{msg.content}</div>);
+                setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: messages }]);
+            }
+        } catch (error) {
+            setError(error.message);
         }
 
         setChatInput('');
         setLoading(false);
     };
+
 
     return (
         <div className={styles.container}>
@@ -126,6 +135,30 @@ const ChatGpt = () => {
                     disabled={!apiKeyValidated || loading}
                     className={styles.input}
                 />
+                <div className={styles.radioButtons}>
+                    <label>
+                        <input
+                            type="radio"
+                            name="messageType"
+                            value="text"
+                            checked={messageType === 'text'}
+                            onChange={() => setMessageType('text')}
+                        />
+                        Text
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="messageType"
+                            value="image"
+                            checked={messageType === 'image'}
+                            onChange={() => setMessageType('image')}
+                            disabled={!apiKeyValidated}
+                        />
+                        Image
+                    </label>
+                </div>
+
                 <button
                     type="submit"
                     disabled={!apiKeyValidated || loading}
@@ -154,9 +187,12 @@ const ChatGpt = () => {
                     {error && <div className={styles.error}>{error}</div>}
                 </form>
             )}
-            {apiKeyValidated && <div className={styles.success}>API key validated and in use.</div>}
+            {apiKeyValidated && (
+                <div className={styles.success}>API key validated and in use.</div>
+            )}
         </div>
     );
+
 };
 
 export default ChatGpt;

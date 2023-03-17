@@ -168,3 +168,24 @@
 .helpText a:hover {
     text-decoration: underline;
 }
+
+.radioButtons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.radioButtons label {
+    margin-right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.radioButtons input[type='radio'] {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.radioButtons input[type='radio']:checked + span {
+    font-weight: bold;
+}

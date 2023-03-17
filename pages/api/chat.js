@@ -6,10 +6,10 @@ export default async function handler(req, res) {
     const requestBody = await req.text();
     const body = JSON.parse(requestBody);
 
-    const { message, apiKey } = body;
+    const { message, apiKey, isImageRequest } = body;
 
     try {
-        const response = await createApiRequest(message, apiKey);
+        const response = await createApiRequest(message, apiKey, isImageRequest);
         const successResponse = new Response(JSON.stringify(createChatResponse(response)), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
