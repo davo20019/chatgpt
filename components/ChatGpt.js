@@ -87,7 +87,12 @@ const ChatGpt = () => {
                     { user: chatInput, bot: <Image src={data.messages[0].content} alt="Generated Image" width={670} height={670} /> },
                 ]);
             } else {
-                const messages = data.messages.map(msg => <div className={styles.bot}>{msg.content}</div>);
+                const messages = data.messages.map((msg, index) => (
+                    <div key={index} className={styles.bot}>
+                        {msg.content}
+                    </div>
+                ));
+
                 setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: messages }]);
             }
         } catch (error) {
@@ -126,7 +131,7 @@ const ChatGpt = () => {
                     <div key={index}>
                         <div className={styles.user}>{chat.user}</div>
                         <div className={styles.bot}>{chat.bot}</div>
-                        <hr />
+                        <hr key={`hr-${index}`} />
                     </div>
                 ))}
             </div>
