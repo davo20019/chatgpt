@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './ChatGpt.module.css';
+import Image from 'next/image';
 
 const ChatGpt = () => {
     const [apiKey, setApiKey] = useState('');
@@ -81,7 +82,10 @@ const ChatGpt = () => {
             console.log(data);
 
             if (isImageRequest) {
-                setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: <img src={data.messages[0].content} alt="Generated Image" /> }]);
+                setChatLog((prevChatLog) => [
+                    ...prevChatLog,
+                    { user: chatInput, bot: <Image src={data.messages[0].content} alt="Generated Image" width={670} height={670} /> },
+                ]);
             } else {
                 const messages = data.messages.map(msg => <div className={styles.bot}>{msg.content}</div>);
                 setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: messages }]);
