@@ -88,7 +88,14 @@ const ChatGpt = () => {
                         user: chatInput,
                         bot: (
                             <a href={data.messages[0].content} target="_blank" rel="noopener noreferrer">
-                                <Image src={data.messages[0].content} alt="Generated Image" width={670} height={670} priority={true}/>
+                                <Image
+                                    src={data.messages[0].content}
+                                    alt="Generated Image"
+                                    width={670}
+                                    height={670}
+                                    priority={true}
+                                    unoptimized
+                                />
                             </a>
                         ),
                     },
