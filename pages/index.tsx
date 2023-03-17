@@ -1,13 +1,16 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import Chat from '../components/Chat';
 import ChatGpt from '../components/ChatGpt';
+import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+    useEffect(() => {
+        ReactGA.pageview(window.location.pathname);
+    }, []);
     return (
         <>
             <Head>
