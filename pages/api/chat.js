@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         });
         return successResponse;
     } catch (error) {
-        const errorResponse = new Response(JSON.stringify(createChatResponse('Something went wrong!')), {
+        const errorResponse = new Response(JSON.stringify(createChatResponse(error.message)), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

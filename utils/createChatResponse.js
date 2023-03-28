@@ -1,3 +1,4 @@
+
 export default function createChatResponse(message) {
     return {
         messages: [

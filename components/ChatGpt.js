@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './ChatGpt.module.css';
 import Image from 'next/image';
+import parse from 'html-react-parser';
 
 const ChatGpt = () => {
     const [apiKey, setApiKey] = useState('');
@@ -75,11 +76,14 @@ const ChatGpt = () => {
             });
 
             if (!response.ok) {
-                throw new Error('An error occurred while processing your request.');
+                // Extract the error message from the response body
+                const errorData = await response.json();
+                const errorMessage = errorData.messages[0].content || 'An error occurred while processing your request.';
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
-            console.log(data);
+            
 
             if (isImageRequest) {
                 setChatLog((prevChatLog) => [
@@ -103,11 +107,17 @@ const ChatGpt = () => {
             } else {
                 const messages = data.messages.map((msg, index) => (
                     <div key={index} className={styles.bot}>
-                        {msg.content}
+                        <div dangerouslySetInnerHTML={{ __html: msg.content }} />
                     </div>
                 ));
 
-                setChatLog(prevChatLog => [...prevChatLog, { user: chatInput, bot: messages }]);
+                setChatLog(prevChatLog => [
+                    ...prevChatLog,
+                    {
+                        user: chatInput,
+                        bot: messages
+                    }
+                    ]);
             }
         } catch (error) {
             setError(error.message);
@@ -210,6 +220,7 @@ const ChatGpt = () => {
                     {error && <div className={styles.error}>{error}</div>}
                 </form>
             )}
+            {error && <div className={styles.error}>{error}</div>}
             {apiKeyValidated && (
                 <div className={styles.success}>API key validated and in use.</div>
             )}
